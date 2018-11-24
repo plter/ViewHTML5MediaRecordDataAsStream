@@ -1,0 +1,13 @@
+{
+  "name": "vhmrdas",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack"
+  },
+  "dependencies": {
+    "webpack-cli": "^3.1.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.26.0"
+  }
+}
