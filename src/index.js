@@ -5,8 +5,8 @@ import Constants from './Constants'
 class Main {
 
     constructor() {
-        this._video = document.querySelector("video");
-        this._pipeline = new MediaStreamPipeline(this._video);
+        this._previewVideo = document.querySelector("#preview");
+        this._pipeline = new MediaStreamPipeline(this._previewVideo);
 
         this._asyncInit();
     }
