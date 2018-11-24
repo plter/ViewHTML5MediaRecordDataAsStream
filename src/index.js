@@ -14,8 +14,6 @@ class Main {
     async _asyncInit() {
         this._stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
         document.querySelector("#btn-refresh").onclick = this._btnFreshClickedHandler.bind(this);
-
-        this._btnFreshClickedHandler();
     }
 
     _btnFreshClickedHandler() {
