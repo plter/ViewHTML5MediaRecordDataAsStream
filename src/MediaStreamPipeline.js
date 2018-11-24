@@ -20,6 +20,7 @@ export default class MediaStreamPipeline {
                 this._currentSourceBuffer.appendBuffer(arrayBuffer);
             }.bind(this));
             this._targetVideoElement.src = URL.createObjectURL(this._mediaSource);
+            this._targetVideoElement.play();
         }
     }
 }
