@@ -10,7 +10,7 @@ const http = require("http");
 const Renderer = {
 
     async previewVideo() {
-        this._stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+        this._stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
         document.querySelector("video").srcObject = this._stream;
     },
 
@@ -35,6 +35,7 @@ const Renderer = {
                     mr.ondataavailable = async e => {
                         res.write(Buffer.from(await this.readBlob(e.data)), err => {
                             if (err) {
+                                console.log("Stop");
                                 mr.stop();
                             }
                         });
