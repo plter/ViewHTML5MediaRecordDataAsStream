@@ -5,12 +5,12 @@
 // selectively enable features needed in the rendering
 // process.
 
-const http = require("http");
+const http = window.node_http;
 
 const Renderer = {
 
     async previewVideo() {
-        this._stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+        this._stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         document.querySelector("video").srcObject = this._stream;
     },
 
@@ -31,7 +31,7 @@ const Renderer = {
                 if (req.url == "/stream.webm") {
                     res.setHeader("Content-Type", "video/webm");
 
-                    let mr = new MediaRecorder(this._stream, {mimeType: 'video/webm; codecs="opus,vp8"'});
+                    let mr = new MediaRecorder(this._stream, { mimeType: 'video/webm; codecs="opus,vp8"' });
                     mr.ondataavailable = async e => {
                         res.write(Buffer.from(await this.readBlob(e.data)), err => {
                             if (err) {
@@ -40,7 +40,7 @@ const Renderer = {
                             }
                         });
                     };
-                    mr.start(1000);
+                    mr.start(10);
                 } else {
                     res.end("Not found");
                 }
