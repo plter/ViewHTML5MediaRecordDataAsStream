@@ -12,24 +12,24 @@ class Main {
     }
 
     async _asyncInit() {
-        this._stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+        this._stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
         document.querySelector("#btn-refresh").onclick = this._btnFreshClickedHandler.bind(this);
     }
 
     _btnFreshClickedHandler() {
         if (this._currentMediaRecorder) {
-            this._currentMediaRecorder.ondataavailable = null;
             this._currentMediaRecorder.stop();
+            // this._currentMediaRecorder.ondataavailable = null;
         }
 
-        let mr = this._currentMediaRecorder = new MediaRecorder(this._stream, {mimeType: Constants.MIME_TYPE});
+        let mr = this._currentMediaRecorder = new MediaRecorder(this._stream, { mimeType: Constants.MIME_TYPE });
         mr._isFirstBuffer = true;
         mr.ondataavailable = async e => {
             let buffer = await tools.blobToArrayBuffer(e.data);
             this._pipeline.addBuffer(buffer, e.target._isFirstBuffer);
             e.target._isFirstBuffer = false;
         };
-        mr.start(300);
+        mr.start(30);
     }
 }
 
