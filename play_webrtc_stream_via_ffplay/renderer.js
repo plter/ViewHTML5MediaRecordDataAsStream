@@ -33,13 +33,12 @@ const Renderer = {
 
                     let mr = new MediaRecorder(this._stream, { mimeType: 'video/webm; codecs="opus,vp8"' });
                     mr.ondataavailable = async e => {
-                        res.write(window.node_Buffer.from(await this.readBlob(e.data)), err => {
-                            if (err) {
-                                console.log("Stop");
-                                mr.stop();
-                            }
-                        });
+                        res.write(window.node_Buffer.from(await this.readBlob(e.data)));
                     };
+
+                    res.once("close", () => {
+                        mr.stop();
+                    });
                     mr.start(30);
                 } else {
                     res.end("Not found");
