@@ -2,6 +2,7 @@
 // It has the same sandbox as a Chrome extension.
 
 window.node_http = require("http");
+window.net = require("net");
 window.node_Buffer = Buffer;
 
 window.addEventListener('DOMContentLoaded', () => {

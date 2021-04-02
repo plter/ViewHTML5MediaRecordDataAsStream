@@ -25,7 +25,7 @@ const Renderer = {
         });
     },
 
-    startServerOnPort(port) {
+    startHttpServerOnPort(port) {
         return new Promise((resolve, reject) => {
             let server = http.createServer((req, res) => {
                 if (req.url == "/stream.webm") {
@@ -38,6 +38,7 @@ const Renderer = {
 
                     res.once("close", () => {
                         mr.stop();
+                        console.log("Client closed");
                     });
                     mr.start(30);
                 } else {
@@ -48,9 +49,26 @@ const Renderer = {
         });
     },
 
+    startSocketServerOnPort(port) {
+        net.createServer(socket => {
+            let mr = new MediaRecorder(this._stream, { mimeType: 'video/webm; codecs="opus,vp8"' });
+            mr.ondataavailable = async e => {
+                socket.write(window.node_Buffer.from(await this.readBlob(e.data)));
+            };
+
+            socket.once('close', () => {
+                mr.stop();
+                console.log("Client closed");
+            });
+            mr.start(30);
+
+        }).listen(port);
+    },
+
     async main() {
         await this.previewVideo();
-        await this.startServerOnPort(9010);
+        await this.startHttpServerOnPort(9010);
+        this.startSocketServerOnPort(9011);
         document.querySelector(".status").innerHTML = "Server started at port 9010.";
     }
 };
